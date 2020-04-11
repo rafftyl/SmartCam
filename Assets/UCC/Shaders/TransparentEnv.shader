@@ -1,4 +1,7 @@
-﻿Shader "UCC/TransparentEnv" {
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "UCC/TransparentEnv" {
 	Properties {
 		_Color ("Color", Color) = (1,1,1,1)
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
@@ -50,8 +53,8 @@
 			
 			Interpolators vert(VertexInput i) {
 				Interpolators o;
-				o.position = mul(UNITY_MATRIX_MVP, i.position);
-				o.worldPosition = mul(_Object2World, i.position.xyz);
+				o.position = UnityObjectToClipPos(i.position);
+				o.worldPosition = mul(unity_ObjectToWorld, i.position.xyz);
 				o.uv = TRANSFORM_TEX(i.uv, _MainTex);
 				o.normal = UnityObjectToWorldNormal(i.normal);
 				o.tangent = float4(UnityObjectToWorldDir(i.tangent.xyz),i.tangent.w);				
